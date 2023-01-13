@@ -12,7 +12,7 @@ public class BallsManager : MonoBehaviour
 
     private void Awake()
     {
-        //Ensures that there is only 1 insatnce of gameManager
+        //Ensures that there is only 1 insatnce of ballsManager
         if (_instance != null)
         {
             Destroy(gameObject);
