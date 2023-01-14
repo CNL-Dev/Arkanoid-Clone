@@ -13,10 +13,9 @@ public class Brick : MonoBehaviour
 
     public static event Action<Brick> OnBrickDestruction;
 
-    private void Start()
+    private void Awake()
     {
-        this.sr =this.GetComponent<SpriteRenderer>();
-        this.sr.sprite = BricksManager.Instance.Sprites[this.health - 1]; //TODO: Replace and delete this line in favor of a Init method
+        this.sr = this.GetComponent<SpriteRenderer>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -32,6 +31,7 @@ public class Brick : MonoBehaviour
         //Destroy brick if its health reaches 0
         if (this.health <= 0)
         {
+            BricksManager.Instance.RemainingBricks.Remove(this);
             OnBrickDestruction?.Invoke(this);
             SpawnDestroyEffect();
             Destroy(this.gameObject);
@@ -52,5 +52,13 @@ public class Brick : MonoBehaviour
         MainModule mm = effect.GetComponent<ParticleSystem>().main;
         mm.startColor = this.sr.color;
         Destroy(effect, DestroyEffect.main.startLifetime.constant);
+    }
+
+    public void Init(Transform containerTransform, Sprite sprite, Color color, int health)
+    {
+        this.transform.SetParent(containerTransform);
+        this.sr.sprite = sprite;
+        this.sr.color = color;
+        this.health = health;
     }
 }

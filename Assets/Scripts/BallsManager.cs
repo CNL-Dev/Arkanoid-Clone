@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BallsManager : MonoBehaviour
@@ -12,7 +14,7 @@ public class BallsManager : MonoBehaviour
 
     private void Awake()
     {
-        //Ensures that there is only 1 insatnce of ballsManager
+        //Ensures that there is only 1 instance of ballsManager
         if (_instance != null)
         {
             Destroy(gameObject);
@@ -67,5 +69,16 @@ public class BallsManager : MonoBehaviour
         {
             initialBall
         };
+    }
+
+    public void ResetBalls()
+    {
+        //Destroy any balls that are in the scene
+        foreach(var ball in this.Balls.ToList())
+        {
+            Destroy(ball.gameObject);
+        }
+        //Create a new ball
+        InitBall();
     }
 }
