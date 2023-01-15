@@ -37,6 +37,8 @@ public class GameManager : MonoBehaviour
 
     public bool IsGameStarted { get; set; }
 
+    public static event Action<int> OnLifeLost;
+
     private void Start()
     {
         this.Lives = availableLives;
@@ -76,6 +78,7 @@ public class GameManager : MonoBehaviour
                 //Reset balls
                 //Stop the game
                 //Reload the level
+                OnLifeLost?.Invoke(this.Lives);
                 BallsManager.Instance.ResetBalls();
                 IsGameStarted = false;
                 BricksManager.Instance.LoadLevel(BricksManager.Instance.currentLevel);

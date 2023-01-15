@@ -15,6 +15,8 @@ public class BricksManager : MonoBehaviour
 
     public static BricksManager Instance => _instance;
 
+    public static event Action OnLevelLoaded;
+
     private void Awake()
     {
         //Ensures that there is only 1 instance of bricksManager
@@ -55,7 +57,7 @@ public class BricksManager : MonoBehaviour
     private void Start()
     {
         this.bricksContainer = new GameObject("BrickContainer");
-        this.RemainingBricks = new List<Brick>();
+        //this.RemainingBricks = new List<Brick>();
         this.levelsData = this.LoadLevelsData();
         this.GenerateBricks();
     }
@@ -94,6 +96,7 @@ public class BricksManager : MonoBehaviour
         }
 
         this.InitialBricksCount = this.RemainingBricks.Count;
+        OnLevelLoaded?.Invoke();
     }
 
     //Generate levels from text file
