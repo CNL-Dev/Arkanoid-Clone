@@ -7,6 +7,7 @@ public class Ball : MonoBehaviour
 {
     public static event Action<Ball> OnBallDeath;
 
+    //Destroys the ball if it falls into the death wall
     public void Die()
     {
         OnBallDeath?.Invoke(this);

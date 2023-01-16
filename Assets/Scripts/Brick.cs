@@ -24,6 +24,7 @@ public class Brick : MonoBehaviour
         ApplyCollisionLogic(ball);
     }
 
+    //When a ball collides with a brick, damage the brick
     private void ApplyCollisionLogic(Ball ball)
     {
         this.health--;
@@ -33,6 +34,7 @@ public class Brick : MonoBehaviour
         {
             BricksManager.Instance.RemainingBricks.Remove(this);
             OnBrickDestruction?.Invoke(this);
+            OnBrickDestroy();
             SpawnDestroyEffect();
             Destroy(this.gameObject);
         }
@@ -43,6 +45,47 @@ public class Brick : MonoBehaviour
         }
     }
 
+    //TODO: Move this logic out of brick
+    private void OnBrickDestroy()
+    {
+        float buffSpawnChance = UnityEngine.Random.Range(0, 100f);
+        float debuffSpawnChance = UnityEngine.Random.Range(0, 100f);
+        bool alreadySpawned = false;
+
+        if(buffSpawnChance <= PowerupsManager.Instance.buffChance)
+        {
+            alreadySpawned = true;
+            Powerup newBuff = this.SpawnCollectable(true);
+        }
+
+        if(debuffSpawnChance <= PowerupsManager.Instance.debuffChance && !alreadySpawned)
+        {
+            Powerup newDebuff = this.SpawnCollectable(false);
+        }
+    }
+
+    //TODO: Move this logic out of brick
+    private Powerup SpawnCollectable(bool isBuff)
+    {
+        List<Powerup> powerup;
+
+        if (isBuff)
+        {
+            powerup = PowerupsManager.Instance.AvailableBuffs;
+        }
+        else
+        {
+            powerup = PowerupsManager.Instance.AvailableDebuffs;
+        }
+
+        int buffIndex = UnityEngine.Random.Range(0, powerup.Count);
+        Powerup prefab = powerup[buffIndex];
+        Powerup newPowerup = Instantiate(prefab, this.transform.position, Quaternion.identity) as Powerup;
+
+        return newPowerup;
+    }
+
+    //Spawns the particle effect after a brick is destroyed
     private void SpawnDestroyEffect()
     {
         Vector3 brickPos = gameObject.transform.position;
@@ -54,6 +97,7 @@ public class Brick : MonoBehaviour
         Destroy(effect, DestroyEffect.main.startLifetime.constant);
     }
 
+    //Create a brick
     public void Init(Transform containerTransform, Sprite sprite, Color color, int health)
     {
         this.transform.SetParent(containerTransform);

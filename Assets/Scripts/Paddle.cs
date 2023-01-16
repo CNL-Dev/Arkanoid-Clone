@@ -57,6 +57,7 @@ public class Paddle : MonoBehaviour
         this.transform.position = new Vector3(mousePosWorldX, paddleInitialY, 0f);
     }
 
+    //Bounces the ball depending on the part of the paddile it collides with
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.tag == "Ball")
