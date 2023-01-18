@@ -7,7 +7,7 @@ public class MultiBall : Powerup
     {
         foreach(Ball ball in BallsManager.Instance.Balls.ToList())
         {
-            BallsManager.Instance.SpawnBalls(ball.gameObject.transform.position, 2);
+            BallsManager.Instance.SpawnBalls(ball.gameObject.transform.position, 2, ball.isLightningBall);
         }
     }
 }

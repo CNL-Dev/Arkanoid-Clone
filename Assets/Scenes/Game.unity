@@ -169,6 +169,7 @@ MonoBehaviour:
   AvailableBuffs:
   - {fileID: 454863657487948436, guid: c10d06eb7386b2744a899c51a89175f7, type: 3}
   - {fileID: 1502568237613443674, guid: 93468e9a0f078b142801367776fdb5bc, type: 3}
+  - {fileID: 186718246704912072, guid: 1aad3cbeb83eaeb4e8bed39b863868e1, type: 3}
   AvailableDebuffs:
   - {fileID: 6288813756222823074, guid: eca87494bab5a8b439f54e6b104bce96, type: 3}
   buffChance: 15
