@@ -87,6 +87,7 @@ public class Paddle : MonoBehaviour
             {
                 ballRb.AddForce(new Vector2((Mathf.Abs(difference * 200)), BallsManager.Instance.initialBallSpeed));
             }
+            SoundManager.Instance.PlayBallHit();
         }
     }
 

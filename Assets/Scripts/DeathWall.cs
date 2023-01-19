@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DeathWall : MonoBehaviour
 {
+    //Deletes the ball when it enters the death wall
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "Ball")

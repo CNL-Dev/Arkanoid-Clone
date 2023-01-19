@@ -63,12 +63,15 @@ public class Brick : MonoBehaviour
             OnBrickDestroy();
             SpawnDestroyEffect();
             Destroy(this.gameObject);
+            SoundManager.Instance.PlayBrickDestroyed();
         }
         else
         {
             //Change the sprite
             this.sr.sprite = BricksManager.Instance.Sprites[this.health - 1];
+            SoundManager.Instance.PlayBallHit();
         }
+        
     }
 
     //TODO: Move this logic out of brick
