@@ -4,6 +4,6 @@ This is a simple clone of the game Arkanoid(also known as breakout) being develo
 This readme will be updated as development continues. 
 
 # To do list
--Add more levels
--Fix sound implementation
--Fix powerups destroying bricks
+- Add more levels
+- Fix sound implementation
+- Fix powerups destroying bricks
