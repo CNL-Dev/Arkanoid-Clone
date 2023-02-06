@@ -37,4 +37,44 @@ public class PowerupsManager : MonoBehaviour
 
     [Range(0, 100)]
     public float debuffChance;
+
+    //Determine if a powerup will spawn or not
+    public void CalculatePowerupChance(Vector3 position)
+    {
+        float buffSpawnChance = UnityEngine.Random.Range(0, 100f);
+        float debuffSpawnChance = UnityEngine.Random.Range(0, 100f);
+        bool alreadySpawned = false;
+
+        if (buffSpawnChance <= buffChance)
+        {
+            alreadySpawned = true;
+            Powerup newBuff = GetCollectable(true, position);
+        }
+
+        if (debuffSpawnChance <= debuffChance && !alreadySpawned)
+        {
+            Powerup newDebuff = GetCollectable(false, position);
+        }
+    }
+
+    //Returns a collectable and creates it in the game world
+    private Powerup GetCollectable(bool isBuff, Vector3 position)
+    {
+        List<Powerup> powerup;
+
+        if (isBuff)
+        {
+            powerup = AvailableBuffs;
+        }
+        else
+        {
+            powerup = AvailableDebuffs;
+        }
+
+        int buffIndex = UnityEngine.Random.Range(0, powerup.Count);
+        Powerup prefab = powerup[buffIndex];
+        Powerup newPowerup = Instantiate(prefab, position, Quaternion.identity) as Powerup;
+
+        return newPowerup;
+    }
 }

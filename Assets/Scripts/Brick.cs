@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 using static UnityEngine.ParticleSystem;
 
@@ -40,14 +41,22 @@ public class Brick : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Ball ball = collision.gameObject.GetComponent<Ball>();
-        ApplyCollisionLogic(ball);
+        //If collision object is a ball, apply logic
+        if(collision.gameObject.tag == "Ball")
+        {
+            Ball ball = collision.gameObject.GetComponent<Ball>();
+            ApplyCollisionLogic(ball);
+        }        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Ball ball = collision.gameObject.GetComponent<Ball>();
-        ApplyCollisionLogic(ball);
+        //If collision object is a ball, apply logic
+        if (collision.gameObject.tag == "Ball")
+        {
+            Ball ball = collision.gameObject.GetComponent<Ball>();
+            ApplyCollisionLogic(ball);
+        }      
     }
 
     //When a ball collides with a brick, damage the brick
@@ -74,44 +83,10 @@ public class Brick : MonoBehaviour
         
     }
 
-    //TODO: Move this logic out of brick
+    //Determines if a powerup will spawn after brick is destroyed
     private void OnBrickDestroy()
     {
-        float buffSpawnChance = UnityEngine.Random.Range(0, 100f);
-        float debuffSpawnChance = UnityEngine.Random.Range(0, 100f);
-        bool alreadySpawned = false;
-
-        if(buffSpawnChance <= PowerupsManager.Instance.buffChance)
-        {
-            alreadySpawned = true;
-            Powerup newBuff = this.SpawnCollectable(true);
-        }
-
-        if(debuffSpawnChance <= PowerupsManager.Instance.debuffChance && !alreadySpawned)
-        {
-            Powerup newDebuff = this.SpawnCollectable(false);
-        }
-    }
-
-    //TODO: Move this logic out of brick
-    private Powerup SpawnCollectable(bool isBuff)
-    {
-        List<Powerup> powerup;
-
-        if (isBuff)
-        {
-            powerup = PowerupsManager.Instance.AvailableBuffs;
-        }
-        else
-        {
-            powerup = PowerupsManager.Instance.AvailableDebuffs;
-        }
-
-        int buffIndex = UnityEngine.Random.Range(0, powerup.Count);
-        Powerup prefab = powerup[buffIndex];
-        Powerup newPowerup = Instantiate(prefab, this.transform.position, Quaternion.identity) as Powerup;
-
-        return newPowerup;
+        PowerupsManager.Instance.CalculatePowerupChance(this.transform.position);
     }
 
     //Spawns the particle effect after a brick is destroyed

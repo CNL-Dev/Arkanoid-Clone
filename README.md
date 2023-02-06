@@ -6,4 +6,4 @@ This readme will be updated as development continues.
 # To do list
 - Add more levels
 - Fix sound implementation
-- Fix powerups destroying bricks
+- Fix paddle size not properly resetting between levels
